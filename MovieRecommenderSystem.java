@@ -1,86 +1,84 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class MovieRecommenderSystem {
+    public static final String USER_NAME_ADMIN = "ADMIN";
+    public static final String PASSWORD_ADMIN = "Admin-010101";
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
 
-        HashMap<String,String> hashMap1 = new HashMap<>();
 
-//        while (true){
-//            String nombre = "";
-//            String contraseña = "";
-//
-//            if (sc.hasNextInt()) {
-//                int user= sc.nextInt();
-//                sc.nextLine();
-//
-//                switch (user) {
-//                    case 1:
-//                        System.out.println("pon tu email,contraseña");
-//                        nombre = sc.nextLine();
-//                        contraseña = sc.nextLine();
-//                        hashMap1.put(nombre, contraseña);
-//                        break;
-//                    case 2:
-//                        nombre = sc.nextLine();
-//                        borrarUser(hashMap1, nombre);
-//                        break;
-//                    case 3:
-//                        System.out.println("Searching The user by the user");
-//                        nombre = sc.nextLine();
-//                        buscarUsuarioporelnombre(hashMap1, nombre);
-//                        break;
-//                    case 4:
-//                        mostrarTodosLosUsuarios(hashMap1);
-//                        break;
-//                }
-//            }
-//        }
-
-    }
-    // Borrar el usuari
-    public static boolean borrarUser(HashMap<String,String> usuaris,String usuari){
-         boolean isDeleted = false;
-        if (usuaris== null){
-            System.out.println("The hashmap can't be null");
-            return false;
-        }
-        if (usuaris.containsKey(usuari)){
-            usuaris.remove(usuari);
-            isDeleted= true;
-        }
-        if (isDeleted){
-            System.out.println("User deleted: "+usuari);
-        }
-        for (Map.Entry<String, String> each:usuaris.entrySet()){
-            String nombredeusuarios = each.getKey();
-            System.out.println("This are the users: \n"+ nombredeusuarios);
-        }
-        return isDeleted;
 
 
     }
-    // buscar usuario por el nombre
-    public static void buscarUsuarioporelnombre(HashMap<String,String> usuaris,String usuari){
-        if (usuaris.containsKey(usuari)){
-            String contaseña = usuaris.get(usuari);
-            System.out.println("Here is the user : "+usuari +" Password "+ contaseña);
+
+    public static String registerUser( HashMap<String, String> user, String username, String password) {
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")) {
+            return "The Password isn't correct! Need it: 1 Mayus, 1 Minus, 1 Symbol and 1 number";
         }
-    }
-    // mostrar todos los usuarios
-    public static void mostrarTodosLosUsuarios(HashMap<String,String> hashMap){
-        if (hashMap==null){
-            System.out.println("The hashmap can't be null");
-            return;
-        }
-        for (Map.Entry<String, String> each:hashMap.entrySet()){
-            String nombredeusuarios = each.getKey();
-            System.out.println("This are the users: \n"+ nombredeusuarios);
-        }
+
+        user.put(username, password);
+        return "User " + username + " Created!";
     }
 
+    public static String loginUser(HashMap<String, String> user, String userName, String password) {
+        if (!user.containsKey(userName)) {
+            return "This Username doesn't Exist";
 
+        } else if (!user.get(userName).equals(password)) {
+            return "Password is in correct";
+        }
+
+        return userName;
+    }
+
+    public static String removeUser(HashMap<String,String> listUsers,String userName){
+        if (listUsers.containsKey(userName)){
+            listUsers.remove(userName);
+            return "User deleted: " + userName;
+
+        } else return "User " + userName + " doesn't Exists.";
+    }
+
+    public static String findUserByName(HashMap<String,String> listUsers,String userName){
+        if (listUsers.containsKey(userName)){
+            String password = listUsers.get(userName);
+            return "Here is the user : " + userName + " Password "+ password;
+
+        } else return "User " + userName + " doesn't exist.";
+    }
+
+    public static void showAllUsers(HashMap<String,String> listUsers){
+        if (!listUsers.isEmpty()) {
+            System.out.println("This are the Users:");
+            for (Map.Entry<String, String> each : listUsers.entrySet()){
+                System.out.println(each.getKey() + " -> " + each.getValue());
+            }
+
+        } else System.out.println("There are no Users in the System");
+    }
+
+    public static String addMovie(TreeSet<String> listMovies, String nameMovie) {
+        if (listMovies.add(nameMovie)) {
+            return "The Movie '" + nameMovie + "' has been Added.";
+
+        } else return "The Movie '" + nameMovie + "' already Exists.";
+    }
+
+    public static String showMovieByName(TreeSet<String> listMovies, String nameMovie) {
+        if (listMovies.contains(nameMovie)) {
+            return "The Movie '" + nameMovie + "' is Exists.";
+
+        } else return "The Movie '" + nameMovie + "' doesn't Exists.";
+    }
+
+    public static void showAllMovies(TreeSet<String> listMovies){
+        if (!listMovies.isEmpty()) {
+            System.out.println("This are the Movies:");
+            for (String each : listMovies){
+                System.out.println(each);
+            }
+
+        } else System.out.println("There are no Movies in the System");
+    }
 }
