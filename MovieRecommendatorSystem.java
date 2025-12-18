@@ -71,7 +71,7 @@ public class MovieRecommendatorSystem {
         System.out.println("1. Buscar por nombre\n2. Ver todas las pelis");
         int option = sc.nextInt();
         sc.nextLine();
-        
+
         if (option == 1) {
             System.out.println("Escribe palabra clave:");
             String keyword = sc.nextLine();
